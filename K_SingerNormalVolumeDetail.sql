@@ -1,6 +1,6 @@
 SELECT 
     FORMAT(Cal_Date_, 'MM-yyyy') AS DatePart,
-    Cal_Date_,
+    Cal_Date_ AS Cal_Date,
     SUM(Inbound_) / 1000000 AS Inbound,
     SUM(Outbound_) / 1000000 AS Outbound,
     SUM(Storage_) / 1000000 AS Storage,
