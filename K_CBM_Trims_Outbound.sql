@@ -31,8 +31,8 @@ SELECT
         END As Billing_Owner,        
         CASE
                 WHEN la.lottable01 LIKE '%NO PACK%' THEN 0 
-                WHEN SUBSTRING(la.lottable06,4,6) LIKE '%BRL%' THEN ROUND((p."cube" * od.shippedqty) ,4) 
-                ELSE ROUND(p."cube",4)
+                WHEN SUBSTRING(la.lottable06,4,6) LIKE '%BRL%' THEN ROUND((p."cube" * od.shippedqty) ,6) 
+                ELSE ROUND(p."cube",6)
         END CBM
 FROM V{=Replace(GetVariable('p_SCHEMA'),'\'','')}.orders o
 LEFT JOIN V{=Replace(GetVariable('p_SCHEMA'),'\'','')}.orderdetail od ON o.orderkey = od.orderkey
