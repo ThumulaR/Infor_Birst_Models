@@ -34,8 +34,8 @@ SELECT DISTINCT
         END) AS Billing_Owner,
         (CASE
                 WHEN rd.lottable01 LIKE '%NO PACK%' THEN 0 
-                WHEN SUBSTRING(rd.lottable06,4,6) LIKE '%BRL%' THEN ROUND((p."cube" * rd.qtyreceived),4) 
-                ELSE ROUND(p."cube" ,4)
+                WHEN SUBSTRING(rd.lottable06,4,6) LIKE '%BRL%' THEN ROUND((p."cube" * rd.qtyreceived),6) 
+                ELSE ROUND(p."cube" ,6)
         END) AS CBM
         
 FROM V{=Replace(GetVariable('p_SCHEMA'),'\'','')}.receipt r
