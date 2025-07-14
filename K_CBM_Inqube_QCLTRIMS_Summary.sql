@@ -1,8 +1,8 @@
 SELECT 
     Final.Overide_Date,
     Final.MonthYear,
-    Final.Inbound_CBM,
-    Final.Outbound_CBM,
+    ISNULL(Final.Inbound_CBM, 0.0) AS Inbound_CBM,
+    ISNULL(Final.Outbound_CBM, 0.0) AS Outbound_CBM,
     Final.day_dif,
     ISNULL(Init.charge_qty, 0) AS init_qty,
     
