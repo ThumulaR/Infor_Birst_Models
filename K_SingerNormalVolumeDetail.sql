@@ -35,7 +35,7 @@ FROM (
     UNION ALL
 
     SELECT 
-        CAST(DATEADD(minute, 30, DATEADD(hour, 5, c.CHARGE_DATE)) AS DATE) AS Cal_Date_,
+        CAST(DATEADD(minute, 30, DATEADD(hour, 5, DATEADD(DAY, -1, c.CHARGE_DATE))) AS DATE) AS Cal_Date_,
         0 AS Inbound_,
         0 AS Outbound_,
         SUM(c.CHARGE_QTY) AS Storage_,
@@ -44,6 +44,6 @@ FROM (
     LEFT JOIN BILLADMIN.BIC_CHARGE c ON CHG_CODE.CHARGE_CODE = c.CHARGE_CODE
     WHERE c.CHARGE_CODE = 'SIN-N-ST'
       AND c.DELETE_FLAG = 0
-    GROUP BY CAST(DATEADD(minute, 30, DATEADD(hour, 5, c.CHARGE_DATE)) AS DATE)
+    GROUP BY CAST(DATEADD(minute, 30, DATEADD(hour, 5, DATEADD(DAY, -1, c.CHARGE_DATE))) AS DATE)
 ) Summary
 GROUP BY Cal_Date_
