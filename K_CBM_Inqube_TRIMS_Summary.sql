@@ -23,7 +23,7 @@ FROM (
     FROM (
         -- Inbound
         SELECT 
-            CAST(DATEADD(minute, 30, DATEADD(hour, 5, rd.effectivedate)) AS DATE) AS Overide_Date,
+            CAST(DATEADD(minute, 30, DATEADD(hour, 5, r.effectivedate)) AS DATE) AS Overide_Date,
             ROUND(SUM(
                 CASE
                     WHEN rd.lottable01 LIKE '%NO PACK%' THEN 0 
@@ -41,13 +41,13 @@ FROM (
             rd.qtyreceived > 0 
             AND rd.effectivedate IS NOT NULL
             AND (r.storerkey = 'INQUBE-TRIMS' OR (r.storerkey = 'INQUBE-QCLTRIMS' AND rd.lottable06 LIKE '%QCLRTN%'))
-        GROUP BY CAST(DATEADD(minute, 30, DATEADD(hour, 5, rd.effectivedate)) AS DATE)
+        GROUP BY CAST(DATEADD(minute, 30, DATEADD(hour, 5, r.effectivedate)) AS DATE)
 
         UNION ALL
 
         -- Outbound
         SELECT
-            CAST(DATEADD(minute, 30, DATEADD(hour, 5, od.effectivedate)) AS DATE) AS Overide_Date,
+            CAST(DATEADD(minute, 30, DATEADD(hour, 5, o.effectivedate)) AS DATE) AS Overide_Date,
             0 AS Inbound_CBM,
             ROUND(SUM(
                 CASE
@@ -67,7 +67,7 @@ FROM (
             od.status = 95
             AND od.effectivedate IS NOT NULL
             AND (o.storerkey = 'INQUBE-TRIMS' OR (o.storerkey = 'INQUBE-QCLTRIMS' AND la.lottable06 LIKE '%QCLRTN%'))
-        GROUP BY CAST(DATEADD(minute, 30, DATEADD(hour, 5, od.effectivedate)) AS DATE)
+        GROUP BY CAST(DATEADD(minute, 30, DATEADD(hour, 5, o.effectivedate)) AS DATE)
     ) AS Combined
     GROUP BY Combined.Overide_Date
 ) AS Final
