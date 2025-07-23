@@ -1,6 +1,3 @@
--- Date      Version  Author  Description
--- 07/02/25    1.00     TR     Initial query 
-
 SELECT DISTINCT
         r.receiptkey AS ASN_Receipt,
         r.storerkey AS Owner,
@@ -13,7 +10,7 @@ SELECT DISTINCT
         rd.ext_udf_str1 AS Description,
         rd.packkey AS Pack,
         rd.uom AS UOM,
-        rd.quarantinelpn AS LPN,
+        rd.toid AS LPN,
         rd.toloc  AS Location,
         rd.status AS Status,
         rd.qtyreceived AS Received_Qty,
@@ -27,7 +24,7 @@ SELECT DISTINCT
         rd.lottable10 AS Lottable10,
         rd.tolot AS Lot_Number,
         '' AS Supplier_Name,
-        CAST(DATEADD(minute, 30, DATEADD(hour, 5, rd.effectivedate )) AS DATE) AS Overide_Date,
+        CAST(DATEADD(minute, 30, DATEADD(hour, 5, r.effectivedate )) AS DATE) AS Overide_Date,
         (CASE 
                 WHEN rd.lottable06 LIKE '%QCLRTN%' THEN 'INQUBE-TRIMS'
                 ELSE r.storerkey
