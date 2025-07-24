@@ -3,11 +3,11 @@ SELECT DISTINCT
         r.storerkey AS Owner,
         r.effectivedate  AS Date_Created,
         r.externreceiptkey AS External_ASN_No,
-        r.ext_udf_str1  AS Article_Descr,
-        r.ext_udf_str2  AS T2_Color,
+        rd.ext_udf_str1  AS Article_Descr,
+        rd.lottable09  AS T2_Color,
         rd.receiptlinenumber AS Line_No,
         rd.sku AS Item,
-        rd.ext_udf_str1 AS Description,
+        i.ITEM_DESC AS Description,
         rd.packkey AS Pack,
         rd.uom AS UOM,
         rd.toid AS LPN,
@@ -23,7 +23,7 @@ SELECT DISTINCT
         rd.lottable09 AS Lottable09,
         rd.lottable10 AS Lottable10,
         rd.tolot AS Lot_Number,
-        '' AS Supplier_Name,
+        r.SupplierName AS Supplier_Name,
         CAST(DATEADD(minute, 30, DATEADD(hour, 5, r.effectivedate )) AS DATE) AS Overide_Date,
         (CASE 
                 WHEN rd.lottable06 LIKE '%QCLRTN%' THEN 'INQUBE-TRIMS'
@@ -44,6 +44,10 @@ LEFT JOIN
 LEFT JOIN 
         V{=Replace(GetVariable('p_SCHEMA'),'\'','')}.pack p 
         ON rd.lottable01 = p.packkey 
+		
+LEFT JOIN
+        BILLADMIN.BIC_ITEM i
+		ON rd.sku = i.ITEM	
 
 WHERE 
         rd.qtyreceived  > 0 AND 
