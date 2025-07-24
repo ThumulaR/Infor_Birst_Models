@@ -66,7 +66,7 @@ FROM (
         WHERE 
             od.status = 95
             AND od.effectivedate IS NOT NULL
-            AND (o.storerkey = 'INQUBE-TRIMS' OR (o.storerkey = 'INQUBE-QCLTRIMS' AND la.lottable06 LIKE '%QCLRTN%'))
+            AND (od.storerkey = 'INQUBE-TRIMS' OR (od.storerkey = 'INQUBE-QCLTRIMS' AND la.lottable06 LIKE '%QCLRTN%'))
         GROUP BY CAST(DATEADD(minute, 30, DATEADD(hour, 5, o.effectivedate)) AS DATE)
     ) AS Combined
     GROUP BY Combined.Overide_Date
