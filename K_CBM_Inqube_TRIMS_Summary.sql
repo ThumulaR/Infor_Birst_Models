@@ -59,8 +59,8 @@ FROM (
         FROM V{=Replace(GetVariable('p_SCHEMA'),'\'','')}.orders o
         LEFT JOIN V{=Replace(GetVariable('p_SCHEMA'),'\'','')}.orderdetail od 
             ON o.orderkey = od.orderkey
-        LEFT JOIN V{=Replace(GetVariable('p_SCHEMA'),'\'','')}.lotattribute la 
-            ON od.sku = la.sku AND od.lottable03 = la.lottable03
+        LEFT JOIN V{=Replace(GetVariable('p_SCHEMA'),'\'','')}.itrn la 
+            ON od.sku = la.sku AND od.orderkey +  CAST(od.orderlinenumber AS VARCHAR) = la.sourcekey
         LEFT JOIN V{=Replace(GetVariable('p_SCHEMA'),'\'','')}.pack p 
             ON la.lottable01 = p.packkey AND la.whseid = p.whseid
         WHERE 
