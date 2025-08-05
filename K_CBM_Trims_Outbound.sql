@@ -33,7 +33,7 @@ SELECT
         END CBM
 FROM V{=Replace(GetVariable('p_SCHEMA'),'\'','')}.orders o
 LEFT JOIN V{=Replace(GetVariable('p_SCHEMA'),'\'','')}.orderdetail od ON o.orderkey = od.orderkey
-LEFT JOIN V{=Replace(GetVariable('p_SCHEMA'),'\'','')}.lotattribute la ON od.sku = la.sku AND od.lottable03 = la.lottable03
+LEFT JOIN V{=Replace(GetVariable('p_SCHEMA'),'\'','')}.itrn la ON od.sku = la.sku AND od.orderkey +  CAST(od.orderlinenumber AS VARCHAR) = la.sourcekey
 LEFT JOIN V{=Replace(GetVariable('p_SCHEMA'),'\'','')}.pack p ON la.lottable01 = p.packkey and la.whseid = p.whseid
-LEFT JOIN BILLADMIN.BIC_ITEM i on od.sku = i.ITEM
+LEFT JOIN BILLADMIN.BIC_ITEM i on od.sku = i.ITEM AND od.storerkey = i.CUST_CODE
 WHERE (od.storerkey = 'INQUBE-TRIMS'OR  od.storerkey = 'INQUBE-QCLTRIMS') AND od.status = 95
