@@ -48,6 +48,7 @@ LEFT JOIN
 LEFT JOIN
         BILLADMIN.BIC_ITEM i
 		ON rd.sku = i.ITEM	
+		AND r.storerkey = i.CUST_CODE
 
 WHERE 
         rd.qtyreceived  > 0 AND 
