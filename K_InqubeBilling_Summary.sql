@@ -315,125 +315,31 @@ select
 	GROUP BY 
 	Cross_sku_Count.DateCal,Cross_sku_Count.Date_Part
 UNION ALL	
-select
-	FORMAT(roll_Sum.Date, 'MM-yyyy') 'DatePart',
-	roll_Sum.Date 'Cal_Date',
+SELECT 
+	FORMAT(CAST(DATEADD(minute, 30, DATEADD(hour, 5, w.ext_udf_date1)) AS DATE), 'MM-yyyy') 'DatePart',
+	CAST(DATEADD(minute, 30, DATEADD(hour, 5, w.ext_udf_date1)) AS DATE) 'Cal_Date',
 	0 'Swatch',
 	0 'Weight',
 	0 'Width',
 	0 'One_Yrd',
 	0 'Inbound_Rolls',
 	0 'Outbound_Rolls',
-	sum(roll_Sum.CutRole) 'Cut_Rolls',
+	COUNT(p.cartontype) 'Cut_Rolls',
 	0 'Additional_Swatch',
 	0 'Additional_Roll',
 	0 'Additional_One_Yrd',
 	0 'Fabric_Width_Measuring',
 	0 'Cross_Dock_Inbound',
 	0 'Cross_Dock_Outbound',
-	0 'Recurring_Storage'		
-FROM
-(
-select 
-roll_d.Date,
-roll_d.sku,
-roll_d.TotalWaveCount,
-roll_d.OutQty,
-roll_d.InQty,
-roll_d.DayWaveCount,
-IIF(
-((roll_d.InQty-(-1)*roll_d.OutQty)>0 AND (roll_d.TotalWaveCount=roll_d.DayWaveCount)),IIF(roll_d.TotalWaveCount=1,1,iif (roll_d.TotalWaveCount>0,roll_d.TotalWaveCount-1,0))
-,
-IIF(
-((roll_d.InQty-(-1)*roll_d.OutQty)>0 AND (roll_d.TotalWaveCount>roll_d.DayWaveCount)),IIF(roll_d.DayWaveCount>1,iif (roll_d.TotalWaveCount>0,roll_d.TotalWaveCount-1,0),1),0)
-) 'CutRole'
-
-FROM
-(SELECT 
-    wave_d.Date, 
-	wave_d.sku,
-	isnull((SELECT Sum(itrn.QTY)
-    FROM V{=Replace(GetVariable('p_SCHEMA'), '\'', '')}.ITRN itrn
-    WHERE 
-	STORERKEY = 'INQUBE-FABRICS'
-    AND itrn.TRANTYPE = 'WD' --Out
-    AND itrn.sku = wave_d.sku
-	AND CAST(DATEADD(minute, 30, DATEADD(hour, 5, itrn.EFFECTIVEDATE)) AS DATE)<=DATEADD(day, 1, wave_d.Date)
-	--GROUP BY CAST(DATEADD(minute, 30, DATEADD(hour, 5, itrn.EFFECTIVEDATE)) AS DATE),itrn.sku
-	),0) 'OutQty',
+	0 'Recurring_Storage'
 	
-	isnull((SELECT Sum(itrn.QTY)
-    FROM V{=Replace(GetVariable('p_SCHEMA'), '\'', '')}.ITRN itrn
-    WHERE 
-	STORERKEY = 'INQUBE-FABRICS'
-    AND itrn.TRANTYPE = 'DP' --in
-    AND itrn.sku = wave_d.sku
-	AND CAST(DATEADD(minute, 30, DATEADD(hour, 5, itrn.EFFECTIVEDATE)) AS DATE)<=DATEADD(day, 1, wave_d.Date)
-	--GROUP BY CAST(DATEADD(minute, 30, DATEADD(hour, 5, itrn.EFFECTIVEDATE)) AS DATE),itrn.sku
-	),0) 'InQty',
-	
-	isnull((
-	SELECT 
-        count(pd_.wavekey)
-    FROM 
-        V{=Replace(GetVariable('p_SCHEMA'),'\'','')}.wave wave_,
-        V{=Replace(GetVariable('p_SCHEMA'),'\'','')}.pickdetail pd_,
-        V{=Replace(GetVariable('p_SCHEMA'),'\'','')}.orderdetail od_
-    WHERE 
-        wave_.wavekey = pd_.wavekey 
-        AND wave_.batchordernumber = od_.batchordernumber
-        AND od_.storerkey = pd_.storerkey 
-		AND od_.sku = pd_.sku
-        AND od_.sku = wave_d.sku 
-        AND od_.STORERKEY = pd_.STORERKEY
-        --AND wave_.EXT_UDF_DATE1 > 0
-		AND CAST(DATEADD(minute, 30, DATEADD(hour, 5, wave_.EXT_UDF_DATE1)) AS DATE)=wave_d.Date
-	),0) 'DayWaveCount',
-	
-	isnull((
-	SELECT 
-        count(pd_.wavekey)
-    FROM 
-        V{=Replace(GetVariable('p_SCHEMA'),'\'','')}.wave wave_,
-        V{=Replace(GetVariable('p_SCHEMA'),'\'','')}.pickdetail pd_,
-        V{=Replace(GetVariable('p_SCHEMA'),'\'','')}.orderdetail od_
-    WHERE 
-        wave_.wavekey = pd_.wavekey 
-        AND wave_.batchordernumber = od_.batchordernumber
-        AND od_.storerkey = pd_.storerkey 
-		AND od_.sku = pd_.sku
-        AND od_.sku = wave_d.sku 
-        AND od_.STORERKEY = pd_.STORERKEY
-        --AND wave_.EXT_UDF_DATE1 > 0
-		AND CAST(DATEADD(minute, 30, DATEADD(hour, 5, wave_.EXT_UDF_DATE1)) AS DATE)<=wave_d.Date
-	),0) 'TotalWaveCount'
-	
-	
-FROM 
-(
-    SELECT 
-	CAST(DATEADD(minute, 30, DATEADD(hour, 5, wave.EXT_UDF_DATE1)) AS DATE) AS Date,
-	od.sku sku
-    FROM V{=Replace(GetVariable('p_SCHEMA'), '\'', '')}.orderdetail od
-		INNER JOIN V{=Replace(GetVariable('p_SCHEMA'), '\'', '')}.wave wave
-		ON od.BATCHORDERNUMBER = wave.BATCHORDERNUMBER
-		where od.STORERKEY = 'INQUBE-FABRICS'
-		--and od.sku='CWPFAB2024DEC1096417'
-		--and CAST(DATEADD(minute, 30, DATEADD(hour, 5, wave.EXT_UDF_DATE1)) AS DATE)='2024-12-31'
- 		GROUP BY 
-		CAST(DATEADD(minute, 30, DATEADD(hour, 5, wave.EXT_UDF_DATE1)) AS DATE)
-		,od.sku
-		 
-) wave_d
-
-
-) roll_d
---where roll_d.sku='CWPFAB2024DEC1096417'
-
-
-) roll_Sum
---where roll_Sum.sku='CWPFAB2024NOV1089933'
-GROUP BY roll_Sum.Date
+FROM V{=Replace(GetVariable('p_SCHEMA'),'\'','')}.wave w
+LEFT JOIN V{=Replace(GetVariable('p_SCHEMA'),'\'','')}.pickdetail p 
+	ON w.wavekey = p.wavekey AND p.cartontype = 'SPLIT'
+WHERE 
+	w.ext_udf_date1 IS NOT NULL
+	--AND CAST(DATEADD(minute, 30, DATEADD(hour, 5, w.ext_udf_date1)) AS DATE) BETWEEN '2025-07-01' AND '2025-07-31'
+GROUP BY CAST(DATEADD(minute, 30, DATEADD(hour, 5, w.ext_udf_date1)) AS DATE)
 
 	) AS CombinedData
 --where DatePart='04-2025'
