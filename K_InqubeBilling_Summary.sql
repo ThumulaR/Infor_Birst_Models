@@ -55,14 +55,14 @@ GROUP by CAST(DATEADD(minute, 30, DATEADD(hour, 5, r.EFFECTIVEDATE)) AS DATE)
 UNION ALL
 
 Select 
-	outboundSum.DatePart AS DatePart,
+	FORMAT(outboundSum.date, 'MM-yyyy') AS DatePart,
 	outboundSum.Date AS EffectiveDate,
 	0 'Swatch',
 	0 'Weight',
 	0 'Width',
 	0 'One_Yrd',
 	0 'Inbound_Rolls',
-	count(outboundSum.SHIPPEDQTY) AS Outbound_Rolls,
+	SUM(outboundSum.SKU_Count) AS Outbound_Rolls,
 	0 'Cut_Rolls',
 	0 'Additional_Swatch',
 	0 'Additional_Roll',
@@ -72,44 +72,53 @@ Select
 	0 'Cross_Dock_Outbound',
 	0 'Recurring_Storage'
 from 
- (
-SELECT DISTINCT
-    od.SKU,
-    SUM(od.SHIPPEDQTY) AS SHIPPEDQTY,
-    MAX(od.EFFECTIVEDATE) AS EFFECTIVEDATE,
-    SUM(od.ORIGINALQTY) AS Quantity,
-    FORMAT(CAST(MAX(DATEADD(minute, 30, DATEADD(hour, 5, wave.EXT_UDF_DATE1))) AS DATE), 'MM-yyyy') AS DatePart,
-    CAST(MAX(DATEADD(minute, 30, DATEADD(hour, 5, wave.EXT_UDF_DATE1))) AS DATE) AS Date
+(
+	SELECT	
+		WaveOrder.date,
+		WaveOrder.wavekey,COUNT(DISTINCT WaveOrder.sku) AS SKU_Count
 
-FROM V{=Replace(GetVariable('p_SCHEMA'), '\'', '')}.orders  
-INNER JOIN V{=Replace(GetVariable('p_SCHEMA'), '\'', '')}.wave wave
-    ON orders.BATCHORDERNUMBER = wave.BATCHORDERNUMBER
-	AND wave.BATCHORDERNUMBER IS NOT NULL
-    AND wave.BATCHORDERNUMBER <> ''
-INNER JOIN V{=Replace(GetVariable('p_SCHEMA'), '\'', '')}.orderdetail od
-    ON od.ORDERKEY = orders.ORDERKEY
-	
-INNER JOIN 
-    V{=Replace(GetVariable('p_SCHEMA'),'\'','')}.itrn trn
-    ON trn.sku= od.sku
-AND trn.SOURCEKEY = od.ORDERKEY + CAST(od.ORDERLINENUMBER AS VARCHAR)
+	FROM
+	(
+		SELECT	
+			waveData.date,	
+			waveData.wavekey,
+			waveData.orderkey AS wave_orderkey,
+			orderData.sku,	
+			orderData.orderkey AS order_orderkey,
+			orderData.orderlinenumber,
+			orderData.shippedqty,
+			orderData.effectivedate
+		FROM
+		(
+			SELECT CAST(DATEADD(minute, 30, DATEADD(hour, 5, w.ext_udf_date1 )) AS DATE) AS date,w.wavekey,w.batchordernumber,wd.orderkey
+			FROM V{=Replace(GetVariable('p_SCHEMA'),'\'','')}.wave w
+			INNER JOIN V{=Replace(GetVariable('p_SCHEMA'),'\'','')}.wavedetail wd	ON w.wavekey = wd.wavekey
+			WHERE 
+				w.batchordernumber <> ''
+				AND w.ext_udf_date1 IS NOT NULL
+				AND w.batchordernumber IS NOT NULL
+		)waveData	
+		
+		INNER JOIN (
+			SELECT od.sku,od.orderkey,od.orderlinenumber,od.shippedqty,o.effectivedate
+				FROM V{=Replace(GetVariable('p_SCHEMA'),'\'','')}.orders o
+				INNER JOIN V{=Replace(GetVariable('p_SCHEMA'),'\'','')}.orderdetail od ON o.orderkey = od.orderkey
+				WHERE od.storerkey = 'INQUBE-FABRICS'
+					AND o."type" != '47'
+					AND od.status IN ('16', '95')
+					--AND CAST(DATEADD(minute, 30, DATEADD(hour, 5, o.effectivedate )) AS DATE) = '2025-05-09'
+		)orderData ON waveData.orderkey = orderData.orderkey
+	)WaveOrder
 
-WHERE od.STORERKEY = 'INQUBE-FABRICS'
-  AND orders.TYPE != '47'
-  AND od.status IN ('16', '95')
-  AND TRANTYPE = 'WD'
-GROUP BY 
-    od.SKU,
-    trn.LOT,
-	trn.TOID,
-    wave.wavekey
-	) 
-	outboundSum
-	--where outboundSum.Date='2025-04-01'
-	Group by 
-	outboundSum.Date,outboundSum.DatePart
-	--order by outboundSum.Date asc
+	INNER JOIN(
+		SELECT i.sku, i.sourcekey
+		FROM V{=Replace(GetVariable('p_SCHEMA'),'\'','')}.itrn i
+		WHERE i.trantype = 'WD'
+	)itrn ON WaveOrder.sku = itrn.sku AND itrn.sourcekey =  WaveOrder.order_orderkey + CAST(WaveOrder.orderlinenumber AS VARCHAR)
 
+	GROUP BY WaveOrder.wavekey,WaveOrder.date
+)outboundSum
+Group by outboundSum.Date
 		
 UNION ALL 
 
