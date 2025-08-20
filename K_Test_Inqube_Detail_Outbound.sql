@@ -1,11 +1,11 @@
 SELECT
 	FORMAT(WaveOrder.date, 'MM-yyyy') AS DatePart,
-	WaveOrder.date,
+	WaveOrder.date AS TransactionDate,
 	WaveOrder.wavekey,
 	WaveOrder.sku,
 	---------------------------------------------------
 	MAX(WaveOrder.batchordernumber) AS batchordernumber,
-	MAX(WaveOrder.descr) AS description,
+	MAX(WaveOrder.descr) AS wave_description,
 	MAX(WaveOrder.ext_udf_date1) AS Wave_Transaction_Override_Date,
 	MAX(WaveOrder.w_status) AS Wave_Status,
 	MAX(WaveOrder.ext_udf_str1) AS Wave_Maintenance_Text_UDF_1,
