@@ -1,11 +1,12 @@
 SELECT
 	FinalSum.MonthYear,
-	SUM(FinalSum.Trims_Inbound) AS Trims_Inbound,
-	SUM(FinalSum.Trims_Outbound) AS Trims_Outbound,
-	SUM(FinalSum.Trims_Storage) AS Trims_Storage,
-	SUM(FinalSum.Qcl_Inbound) AS Qcl_Inbound,
-	SUM(FinalSum.Qcl_Outbound) AS Qcl_Outbound,
-	SUM(FinalSum.Qcl_Addtional_Storage) AS Qcl_Addtional_Storage
+	ROUND(SUM(FinalSum.Trims_Inbound),3) AS Trims_Inbound,
+	ROUND(SUM(FinalSum.Trims_Outbound),3) AS Trims_Outbound,
+	ROUND(SUM(FinalSum.Trims_Storage),3) AS Trims_Storage,
+	ROUND(SUM(FinalSum.Qcl_Inbound),3) AS Qcl_Inbound,
+	ROUND(SUM(FinalSum.Qcl_Outbound),3) AS Qcl_Outbound,
+	ROUND(SUM(FinalSum.Qcl_Addtional_Storage),3) AS Qcl_Addtional_Storage
+
 FROM(
 
 	--Calculate Trims Inbound & Outbound
