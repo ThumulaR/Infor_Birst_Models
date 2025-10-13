@@ -58,7 +58,7 @@ FROM
 		
 	FROM BILLADMIN.BIC_CHARGE_CODE CHG_CODE
 	LEFT JOIN BILLADMIN.BIC_CHARGE c ON CHG_CODE.CHARGE_CODE = c.CHARGE_CODE
-	WHERE c.CHARGE_CODE = 'HAL-ST-AB' AND c.ITEM_GROUP = 'HL-FG-AB'
+	WHERE c.CHARGE_CODE = 'HL-ST' AND c.ITEM_GROUP = 'HL-FG-AB'
 	GROUP BY CAST(DATEADD(minute, 30, DATEADD(hour, 5, c.CHARGE_DATE)) AS DATE)
 	-----------------------------------------------------------------------------------------------------------------------
 	UNION ALL
@@ -100,7 +100,7 @@ FROM
 		
 	FROM BILLADMIN.BIC_CHARGE_CODE CHG_CODE
 	LEFT JOIN BILLADMIN.BIC_CHARGE c ON CHG_CODE.CHARGE_CODE = c.CHARGE_CODE
-	WHERE c.CHARGE_CODE = 'HAL-ST-AB' AND c.ITEM_GROUP = 'HL-MR'
+	WHERE c.CHARGE_CODE = 'HL-ST' AND c.ITEM_GROUP = 'HL-MR'
 	GROUP BY CAST(DATEADD(minute, 30, DATEADD(hour, 5, c.CHARGE_DATE)) AS DATE)
 	-----------------------------------------------------------------------------------------------------------------------
 	UNION ALL
@@ -142,7 +142,49 @@ FROM
 		
 	FROM BILLADMIN.BIC_CHARGE_CODE CHG_CODE
 	LEFT JOIN BILLADMIN.BIC_CHARGE c ON CHG_CODE.CHARGE_CODE = c.CHARGE_CODE
-	WHERE c.CHARGE_CODE = 'HAL-ST-AB' AND c.ITEM_GROUP = 'HL-DOC'
+	WHERE c.CHARGE_CODE = 'HL-ST' AND c.ITEM_GROUP = 'HL-DOC'
+	GROUP BY CAST(DATEADD(minute, 30, DATEADD(hour, 5, c.CHARGE_DATE)) AS DATE)
+	-----------------------------------------------------------------------------------------------------------------------
+	UNION ALL
+	
+	SELECT
+		FORMAT(CAST(DATEADD(minute, 30, DATEADD(hour, 5, c.CHARGE_DATE)) AS DATE), 'MM-yyyy') AS DatePart,
+		CAST(DATEADD(minute, 30, DATEADD(hour, 5, c.CHARGE_DATE)) AS DATE) AS Cal_Date,
+		0 AS HAL_OB_FG_AB,
+		0 AS HL_FG_AB,
+		0 AS HAL_OB_MR_AB,
+		0 AS HL_MR,
+		0 AS HAL_OB_DOC_AB,
+		0 AS HL_DOC,
+		SUM(c.CHARGE_QTY) AS HAL_OB_POSM_AB,
+		0 AS HL_POSM,
+		0 AS HAL_OB_FG_TC,
+		0 AS HL_FG
+
+	FROM BILLADMIN.BIC_CHARGE_CODE CHG_CODE
+	LEFT JOIN BILLADMIN.BIC_CHARGE c ON CHG_CODE.CHARGE_CODE = c.CHARGE_CODE
+	WHERE c.CHARGE_CODE = 'HAL-OB-POSM-AB'	
+	GROUP BY CAST(DATEADD(minute, 30, DATEADD(hour, 5, c.CHARGE_DATE)) AS DATE)
+
+	UNION ALL
+
+	SELECT
+		FORMAT(CAST(DATEADD(minute, 30, DATEADD(hour, 5, c.CHARGE_DATE)) AS DATE), 'MM-yyyy') AS DatePart,
+		CAST(DATEADD(minute, 30, DATEADD(hour, 5, c.CHARGE_DATE)) AS DATE) AS Cal_Date,
+		0 AS HAL_OB_FG_AB,
+		0 AS HL_FG_AB,
+		0 AS HAL_OB_MR_AB,
+		0 AS HL_MR,
+		0 AS HAL_OB_DOC_AB,
+		0 AS HL_DOC,
+		0 AS HAL_OB_POSM_AB,
+		SUM(c.CHARGE_QTY) AS HL_POSM,
+		0 AS HAL_OB_FG_TC,
+		0 AS HL_FG
+		
+	FROM BILLADMIN.BIC_CHARGE_CODE CHG_CODE
+	LEFT JOIN BILLADMIN.BIC_CHARGE c ON CHG_CODE.CHARGE_CODE = c.CHARGE_CODE
+	WHERE c.CHARGE_CODE = 'HL-ST' AND c.ITEM_GROUP = 'HL-POSM'
 	GROUP BY CAST(DATEADD(minute, 30, DATEADD(hour, 5, c.CHARGE_DATE)) AS DATE)
 	-----------------------------------------------------------------------------------------------------------------------
 	UNION ALL
@@ -184,7 +226,7 @@ FROM
 		
 	FROM BILLADMIN.BIC_CHARGE_CODE CHG_CODE
 	LEFT JOIN BILLADMIN.BIC_CHARGE c ON CHG_CODE.CHARGE_CODE = c.CHARGE_CODE
-	WHERE c.CHARGE_CODE = 'HAL-ST-TC' AND c.ITEM_GROUP = 'HL-FG'
+	WHERE c.CHARGE_CODE = 'HL-ST' AND c.ITEM_GROUP = 'HL-FG-TC'
 	GROUP BY CAST(DATEADD(minute, 30, DATEADD(hour, 5, c.CHARGE_DATE)) AS DATE)
 	-----------------------------------------------------------------------------------------------------------------------
 )Final
