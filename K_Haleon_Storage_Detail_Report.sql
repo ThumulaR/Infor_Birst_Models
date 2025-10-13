@@ -1,22 +1,22 @@
 SELECT
-	Final.DatePart AS A_DatePart,
-	Final.Cal_Date AS B_Cal_Date,
-	SUM(Final.HAL_OB_FG_AB) AS C_HAL_OB_FG_AB,
-	SUM(Final.HL_FG_AB) AS D_HL_FG_AB,
-	SUM(Final.HAL_OB_FG_AB) + SUM(Final.HL_FG_AB) AS E_HAL_FG_AB_TOT,
-	SUM(Final.HAL_OB_MR_AB) AS F_HAL_OB_MR_AB,
-	SUM(Final.HL_MR) AS G_HL_MR,
-	SUM(Final.HAL_OB_MR_AB) + SUM(Final.HL_MR) AS H_HAL_MR_AB_TOT,
-	SUM(Final.HAL_OB_DOC_AB) AS I_HAL_OB_DOC_AB,
-	SUM(Final.HL_DOC) AS J_HL_DOC,
-	SUM(Final.HAL_OB_DOC_AB) + SUM(Final.HL_DOC) AS K_H_HAL_DOC_AB_TOT,
-	SUM(Final.HAL_OB_POSM_AB) AS L_HAL_OB_POSM_AB,
-	SUM(Final.HL_POSM) AS M_HL_POSM,
-	SUM(Final.HAL_OB_POSM_AB) + SUM(Final.HL_POSM) AS N_H_HAL_POSM_AB_TOT,
-	SUM(Final.HAL_OB_FG_TC) AS O_HAL_OB_FG_TC,
-	SUM(Final.HL_FG) AS P_HL_FG,
-	SUM(Final.HAL_OB_FG_TC) + SUM(Final.HL_FG) AS Q_H_HAL_FG_TC_TOT,
-	SUM(Final.HAL_OB_FG_AB) + SUM(Final.HL_FG_AB) + SUM(Final.HAL_OB_MR_AB) + SUM(Final.HL_MR) + SUM(Final.HAL_OB_DOC_AB) + SUM(Final.HL_DOC) + SUM(Final.HAL_OB_POSM_AB) + SUM(Final.HL_POSM) AS R_HAL_AB_TOT
+	Final.DatePart AS DatePart,
+	Final.Cal_Date AS Cal_Date,
+	SUM(Final.HAL_OB_FG_AB) AS HAL_OB_FG_AB,
+	SUM(Final.HL_FG_AB) AS HL_FG_AB,
+	SUM(Final.HAL_OB_FG_AB) + SUM(Final.HL_FG_AB) AS HAL_FG_AB_TOT,
+	SUM(Final.HAL_OB_MR_AB) AS HAL_OB_MR_AB,
+	SUM(Final.HL_MR) AS HL_MR,
+	SUM(Final.HAL_OB_MR_AB) + SUM(Final.HL_MR) AS HAL_MR_AB_TOT,
+	SUM(Final.HAL_OB_DOC_AB) AS HAL_OB_DOC_AB,
+	SUM(Final.HL_DOC) AS HL_DOC,
+	SUM(Final.HAL_OB_DOC_AB) + SUM(Final.HL_DOC) AS H_HAL_DOC_AB_TOT,
+	SUM(Final.HAL_OB_POSM_AB) AS HAL_OB_POSM_AB,
+	SUM(Final.HL_POSM) AS HL_POSM,
+	SUM(Final.HAL_OB_POSM_AB) + SUM(Final.HL_POSM) AS HAL_POSM_AB_TOT,
+	SUM(Final.HAL_OB_FG_TC) AS HAL_OB_FG_TC, --temp controll
+	SUM(Final.HL_FG) AS HL_FG, --temp controll storage
+	SUM(Final.HAL_OB_FG_TC) + SUM(Final.HL_FG) AS HAL_FG_TC_TOT, --temp controll tot
+	SUM(Final.HAL_OB_FG_AB) + SUM(Final.HL_FG_AB) + SUM(Final.HAL_OB_MR_AB) + SUM(Final.HL_MR) + SUM(Final.HAL_OB_DOC_AB) + SUM(Final.HL_DOC) + SUM(Final.HAL_OB_POSM_AB) + SUM(Final.HL_POSM) AS HAL_AB_TOT
 	
 FROM
 (
