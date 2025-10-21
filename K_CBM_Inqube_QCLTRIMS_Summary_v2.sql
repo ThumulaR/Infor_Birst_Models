@@ -114,6 +114,7 @@ LEFT JOIN (
     FROM BILLADMIN.BIC_CHARGE 
     WHERE charge_code = 'INQTRIMOB' 
       AND bill_to = 'INQUBE-QCLTRIMS'
+	  AND DELETE_FLAG = 0
     GROUP BY FORMAT(charge_date, 'MM-yyyy')
 ) AS Init ON Final.MonthYear = Init.MonthYear
 
