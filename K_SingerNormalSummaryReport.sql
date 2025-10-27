@@ -154,111 +154,6 @@ GROUP BY
 UNION	
 
 SELECT
-	9 'No',
-	'Container Unloading  40ft_Local' 'Description',
-    FORMAT(DATEADD(minute, 30, DATEADD(hour, 5, c.CHARGE_DATE)), 'MM-yyyy') 'DatePart',
-    YEAR(DATEADD(minute, 30, DATEADD(hour, 5, c.CHARGE_DATE))) 'Year',
-	SUM(c.CHARGE_QTY) 'Value'
-FROM BILLADMIN.BIC_CHARGE c
-INNER JOIN BILLADMIN.BIC_CHARGE_CODE CHG_CODE 
-ON c.CHARGE_CODE = CHG_CODE.CHARGE_CODE
-WHERE c.CHARGE_CODE = 'SIN-N-CUL-40FT'
-AND c.DELETE_FLAG = 0
-GROUP BY 
-	FORMAT(DATEADD(minute, 30, DATEADD(hour, 5, c.CHARGE_DATE)), 'MM-yyyy'),
-	YEAR(DATEADD(minute, 30, DATEADD(hour, 5, c.CHARGE_DATE)))
-
-UNION
-	
-SELECT
-	10 'No',
-	'Container Unloading  20ft_Local' 'Description',
-    FORMAT(DATEADD(minute, 30, DATEADD(hour, 5, c.CHARGE_DATE)), 'MM-yyyy') 'DatePart',
-    YEAR(DATEADD(minute, 30, DATEADD(hour, 5, c.CHARGE_DATE))) 'Year',
-	SUM(c.CHARGE_QTY) 'Value'
-FROM BILLADMIN.BIC_CHARGE c
-INNER JOIN BILLADMIN.BIC_CHARGE_CODE CHG_CODE 
-ON c.CHARGE_CODE = CHG_CODE.CHARGE_CODE
-WHERE c.CHARGE_CODE = 'SIN-N-CUL-20FT'
-AND c.DELETE_FLAG = 0
-GROUP BY 
-	FORMAT(DATEADD(minute, 30, DATEADD(hour, 5, c.CHARGE_DATE)), 'MM-yyyy'),
-	YEAR(DATEADD(minute, 30, DATEADD(hour, 5, c.CHARGE_DATE)))
-
-UNION
-
-SELECT
-	11 'No',
-	'Container Unloading  LCL_Local' 'Description',
-    FORMAT(DATEADD(minute, 30, DATEADD(hour, 5, c.CHARGE_DATE)), 'MM-yyyy') 'DatePart',
-    YEAR(DATEADD(minute, 30, DATEADD(hour, 5, c.CHARGE_DATE))) 'Year',
-	SUM(c.CHARGE_QTY) 'Value'
-FROM BILLADMIN.BIC_CHARGE c
-INNER JOIN BILLADMIN.BIC_CHARGE_CODE CHG_CODE 
-ON c.CHARGE_CODE = CHG_CODE.CHARGE_CODE
-WHERE c.CHARGE_CODE = 'SIN-N-CUL-LCL'
-AND c.DELETE_FLAG = 0
-GROUP BY 
-	FORMAT(DATEADD(minute, 30, DATEADD(hour, 5, c.CHARGE_DATE)), 'MM-yyyy'),
-	YEAR(DATEADD(minute, 30, DATEADD(hour, 5, c.CHARGE_DATE)))
-
-UNION
-
-SELECT
-	9 'No',
-	'Container Unloading  40ft_Import' 'Description',
-    FORMAT(DATEADD(minute, 30, DATEADD(hour, 5, c.CHARGE_DATE)), 'MM-yyyy') 'DatePart',
-    YEAR(DATEADD(minute, 30, DATEADD(hour, 5, c.CHARGE_DATE))) 'Year',
-	SUM(c.CHARGE_QTY) 'Value'
-FROM BILLADMIN.BIC_CHARGE c
-INNER JOIN BILLADMIN.BIC_CHARGE_CODE CHG_CODE 
-ON c.CHARGE_CODE = CHG_CODE.CHARGE_CODE
-WHERE c.CHARGE_CODE = 'SIN-N-CUI-40FT'
-AND c.DELETE_FLAG = 0
-GROUP BY 
-	FORMAT(DATEADD(minute, 30, DATEADD(hour, 5, c.CHARGE_DATE)), 'MM-yyyy'),
-	YEAR(DATEADD(minute, 30, DATEADD(hour, 5, c.CHARGE_DATE)))
-	
-UNION
-
-	
-SELECT
-	10 'No',
-	'Container Unloading  20ft_Import' 'Description',
-    FORMAT(DATEADD(minute, 30, DATEADD(hour, 5, c.CHARGE_DATE)), 'MM-yyyy') 'DatePart',
-    YEAR(DATEADD(minute, 30, DATEADD(hour, 5, c.CHARGE_DATE))) 'Year',
-	SUM(c.CHARGE_QTY) 'Value'
-FROM BILLADMIN.BIC_CHARGE c
-INNER JOIN BILLADMIN.BIC_CHARGE_CODE CHG_CODE 
-ON c.CHARGE_CODE = CHG_CODE.CHARGE_CODE
-WHERE c.CHARGE_CODE = 'SIN-N-CUI-20FT'
-AND c.DELETE_FLAG = 0
-GROUP BY 
-	FORMAT(DATEADD(minute, 30, DATEADD(hour, 5, c.CHARGE_DATE)), 'MM-yyyy'),
-	YEAR(DATEADD(minute, 30, DATEADD(hour, 5, c.CHARGE_DATE)))
-
-UNION
-
-
-SELECT
-	11 'No',
-	'Container Unloading  LCL_Import' 'Description',
-    FORMAT(DATEADD(minute, 30, DATEADD(hour, 5, c.CHARGE_DATE)), 'MM-yyyy') 'DatePart',
-    YEAR(DATEADD(minute, 30, DATEADD(hour, 5, c.CHARGE_DATE))) 'Year',
-	SUM(c.CHARGE_QTY) 'Value'
-FROM BILLADMIN.BIC_CHARGE c
-INNER JOIN BILLADMIN.BIC_CHARGE_CODE CHG_CODE 
-ON c.CHARGE_CODE = CHG_CODE.CHARGE_CODE
-WHERE c.CHARGE_CODE = 'SIN-N-CUI-LCL'
-AND c.DELETE_FLAG = 0
-GROUP BY 
-	FORMAT(DATEADD(minute, 30, DATEADD(hour, 5, c.CHARGE_DATE)), 'MM-yyyy'),
-	YEAR(DATEADD(minute, 30, DATEADD(hour, 5, c.CHARGE_DATE)))
-
-UNION
-
-
-SELECT
 	12 'No',
 	'Night_Meal' 'Description',
     FORMAT(DATEADD(minute, 30, DATEADD(hour, 5, c.CHARGE_DATE)), 'MM-yyyy') 'DatePart',
@@ -274,7 +169,6 @@ GROUP BY
 	YEAR(DATEADD(minute, 30, DATEADD(hour, 5, c.CHARGE_DATE)))
 
 UNION
-
 
 SELECT
 	13 'No',
@@ -293,7 +187,6 @@ GROUP BY
 
 UNION
 
-
 SELECT
 	14 'No',
 	'VAS Operations' 'Description',
@@ -308,3 +201,161 @@ AND c.DELETE_FLAG = 0
 GROUP BY 
 	FORMAT(DATEADD(minute, 30, DATEADD(hour, 5, c.CHARGE_DATE)), 'MM-yyyy'),
 	YEAR(DATEADD(minute, 30, DATEADD(hour, 5, c.CHARGE_DATE)))
+	
+UNION	
+--CUI	
+SELECT 
+	9 'No',
+	'Container Unloading  40ft_Local' 'Description',
+	FORMAT(SINNCUI40FT.Cal_Date , 'MM-yyyy') AS DatePart,
+	FORMAT(SINNCUI40FT.Cal_Date , 'yyyy') AS Year,
+	SUM(SINNCUI40FT.SINNCUI40FT) AS Value
+   
+FROM (
+	SELECT 
+		CAST(DATEADD(minute, 30, DATEADD(hour, 5, c.CHARGE_DATE)) AS DATE) AS Cal_Date,
+		r.VEHICLENUMBER AS VehicleNumber,
+		r.CONTAINERKEY AS ContainerNo,
+		COUNT(c.CHARGE_CODE) AS  SINNCUI40FT
+		
+	FROM BILLADMIN.BIC_CHARGE c
+	Left join V{=Replace(GetVariable('p_SCHEMA'), '\'', '')}.receipt r ON c.order_no = r.RECEIPTKEY
+	WHERE c.CHARGE_CODE IN ('SIN-N-CUI-40FT')
+	AND c.DELETE_FLAG = 0
+	GROUP BY CAST(DATEADD(minute, 30, DATEADD(hour, 5, c.CHARGE_DATE)) AS DATE),
+			 r.VEHICLENUMBER,
+			 r.CONTAINERKEY
+) SINNCUI40FT
+GROUP BY FORMAT(SINNCUI40FT.Cal_Date , 'MM-yyyy') ,FORMAT(SINNCUI40FT.Cal_Date , 'yyyy') 
+
+UNION
+
+SELECT 
+	10 'No',
+	'Container Unloading  20ft_Local' 'Description',
+	FORMAT(SINNCUI20FT.Cal_Date , 'MM-yyyy') AS DatePart,
+	FORMAT(SINNCUI20FT.Cal_Date , 'yyyy') AS Year,
+	SUM(SINNCUI20FT.SINNCUI20FT) AS Value
+   
+FROM (
+	SELECT 
+		CAST(DATEADD(minute, 30, DATEADD(hour, 5, c.CHARGE_DATE)) AS DATE) AS Cal_Date,
+		r.VEHICLENUMBER AS VehicleNumber,
+		r.CONTAINERKEY AS ContainerNo,
+		COUNT(c.CHARGE_CODE) AS  SINNCUI20FT
+		
+	FROM BILLADMIN.BIC_CHARGE c
+	Left join V{=Replace(GetVariable('p_SCHEMA'), '\'', '')}.receipt r ON c.order_no = r.RECEIPTKEY
+	WHERE c.CHARGE_CODE IN ('SIN-N-CUI-20FT')
+	AND c.DELETE_FLAG = 0
+	GROUP BY CAST(DATEADD(minute, 30, DATEADD(hour, 5, c.CHARGE_DATE)) AS DATE),
+			 r.VEHICLENUMBER,
+			 r.CONTAINERKEY
+) SINNCUI20FT
+GROUP BY FORMAT(SINNCUI20FT.Cal_Date , 'MM-yyyy') ,FORMAT(SINNCUI20FT.Cal_Date , 'yyyy') 
+
+UNION
+
+SELECT 
+	11 'No',
+	'Container Unloading  LCL_Local' 'Description',
+	FORMAT(SINNCUILCL.Cal_Date , 'MM-yyyy') AS DatePart,
+	FORMAT(SINNCUILCL.Cal_Date , 'yyyy') AS Year,
+	SUM(SINNCUILCL.SINNCUILCL) AS Value
+   
+FROM (
+	SELECT 
+		CAST(DATEADD(minute, 30, DATEADD(hour, 5, c.CHARGE_DATE)) AS DATE) AS Cal_Date,
+		r.VEHICLENUMBER AS VehicleNumber,
+		r.CONTAINERKEY AS ContainerNo,
+		COUNT(c.CHARGE_CODE) AS  SINNCUILCL
+		
+	FROM BILLADMIN.BIC_CHARGE c
+	Left join V{=Replace(GetVariable('p_SCHEMA'), '\'', '')}.receipt r ON c.order_no = r.RECEIPTKEY
+	WHERE c.CHARGE_CODE IN ('SIN-N-CUI-LCL')
+	AND c.DELETE_FLAG = 0
+	GROUP BY CAST(DATEADD(minute, 30, DATEADD(hour, 5, c.CHARGE_DATE)) AS DATE),
+			 r.VEHICLENUMBER,
+			 r.CONTAINERKEY
+) SINNCUILCL
+GROUP BY FORMAT(SINNCUILCL.Cal_Date , 'MM-yyyy') ,FORMAT(SINNCUILCL.Cal_Date , 'yyyy') 	
+	
+--CUL
+
+UNION	
+	
+SELECT 
+	9 'No',
+	'Container Unloading  40ft_Local' 'Description',
+	FORMAT(SINNCUI40FT.Cal_Date , 'MM-yyyy') AS DatePart,
+	FORMAT(SINNCUI40FT.Cal_Date , 'yyyy') AS Year,
+	SUM(SINNCUI40FT.SINNCUI40FT) AS Value
+   
+FROM (
+	SELECT 
+		CAST(DATEADD(minute, 30, DATEADD(hour, 5, c.CHARGE_DATE)) AS DATE) AS Cal_Date,
+		r.VEHICLENUMBER AS VehicleNumber,
+		r.CONTAINERKEY AS ContainerNo,
+		COUNT(c.CHARGE_CODE) AS  SINNCUI40FT
+		
+	FROM BILLADMIN.BIC_CHARGE c
+	Left join V{=Replace(GetVariable('p_SCHEMA'), '\'', '')}.receipt r ON c.order_no = r.RECEIPTKEY
+	WHERE c.CHARGE_CODE IN ('SIN-N-CUL-40FT')
+	AND c.DELETE_FLAG = 0
+	GROUP BY CAST(DATEADD(minute, 30, DATEADD(hour, 5, c.CHARGE_DATE)) AS DATE),
+			 r.VEHICLENUMBER,
+			 r.CONTAINERKEY
+) SINNCUI40FT
+GROUP BY FORMAT(SINNCUI40FT.Cal_Date , 'MM-yyyy') ,FORMAT(SINNCUI40FT.Cal_Date , 'yyyy') 
+
+UNION
+
+SELECT 
+	10 'No',
+	'Container Unloading  20ft_Local' 'Description',
+	FORMAT(SINNCUI20FT.Cal_Date , 'MM-yyyy') AS DatePart,
+	FORMAT(SINNCUI20FT.Cal_Date , 'yyyy') AS Year,
+	SUM(SINNCUI20FT.SINNCUI20FT) AS Value
+   
+FROM (
+	SELECT 
+		CAST(DATEADD(minute, 30, DATEADD(hour, 5, c.CHARGE_DATE)) AS DATE) AS Cal_Date,
+		r.VEHICLENUMBER AS VehicleNumber,
+		r.CONTAINERKEY AS ContainerNo,
+		COUNT(c.CHARGE_CODE) AS  SINNCUI20FT
+		
+	FROM BILLADMIN.BIC_CHARGE c
+	Left join V{=Replace(GetVariable('p_SCHEMA'), '\'', '')}.receipt r ON c.order_no = r.RECEIPTKEY
+	WHERE c.CHARGE_CODE IN ('SIN-N-CUL-20FT')
+	AND c.DELETE_FLAG = 0
+	GROUP BY CAST(DATEADD(minute, 30, DATEADD(hour, 5, c.CHARGE_DATE)) AS DATE),
+			 r.VEHICLENUMBER,
+			 r.CONTAINERKEY
+) SINNCUI20FT
+GROUP BY FORMAT(SINNCUI20FT.Cal_Date , 'MM-yyyy') ,FORMAT(SINNCUI20FT.Cal_Date , 'yyyy') 
+
+UNION
+
+SELECT 
+	11 'No',
+	'Container Unloading  LCL_Local' 'Description',
+	FORMAT(SINNCUILCL.Cal_Date , 'MM-yyyy') AS DatePart,
+	FORMAT(SINNCUILCL.Cal_Date , 'yyyy') AS Year,
+	SUM(SINNCUILCL.SINNCUILCL) AS Value
+   
+FROM (
+	SELECT 
+		CAST(DATEADD(minute, 30, DATEADD(hour, 5, c.CHARGE_DATE)) AS DATE) AS Cal_Date,
+		r.VEHICLENUMBER AS VehicleNumber,
+		r.CONTAINERKEY AS ContainerNo,
+		COUNT(c.CHARGE_CODE) AS  SINNCUILCL
+		
+	FROM BILLADMIN.BIC_CHARGE c
+	Left join V{=Replace(GetVariable('p_SCHEMA'), '\'', '')}.receipt r ON c.order_no = r.RECEIPTKEY
+	WHERE c.CHARGE_CODE IN ('SIN-N-CUL-LCL')
+	AND c.DELETE_FLAG = 0
+	GROUP BY CAST(DATEADD(minute, 30, DATEADD(hour, 5, c.CHARGE_DATE)) AS DATE),
+			 r.VEHICLENUMBER,
+			 r.CONTAINERKEY
+) SINNCUILCL
+GROUP BY FORMAT(SINNCUILCL.Cal_Date , 'MM-yyyy') ,FORMAT(SINNCUILCL.Cal_Date , 'yyyy') 	
