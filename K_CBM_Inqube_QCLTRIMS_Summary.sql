@@ -5,7 +5,7 @@ SELECT
     ISNULL(Final.Outbound_CBM, 0.0) AS Outbound_CBM,
     Final.day_dif,
     ISNULL(Init.charge_qty, 0) AS init_qty,
-    
+    --Test
     ISNULL(Init.charge_qty, 0) + 
         SUM(Final.day_dif) OVER (
             PARTITION BY Final.MonthYear 
